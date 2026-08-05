@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: JamieOnDrums/somethings-palmr   # e.g. yourname/palmr
+  IMAGE_NAME: jamieondrums/somethings-palmr
 
 jobs:
   build:
