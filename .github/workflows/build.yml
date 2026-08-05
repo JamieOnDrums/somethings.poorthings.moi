@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
-            cd /root/somethings.poorthings/moi
+            cd /root/somethings.poorthings.moi
             docker compose pull
             docker compose up -d
             docker image prune -f
