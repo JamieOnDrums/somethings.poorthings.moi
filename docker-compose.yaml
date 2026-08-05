@@ -1,6 +1,6 @@
 services:
   palmr:
-    image: jamieondrums/somethings-palmr:latest
+    image: ghcr.io/jamieondrums/somethings-palmr:latest
     container_name: palmr
     environment:
       # ==============================================================================
