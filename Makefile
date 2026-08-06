@@ -1,4 +1,6 @@
-.PHONY: help build start clean logs stop restart update-version
+.PHONY: help build start clean logs stop restart update-version dev dev-down
+
+DOCKER ?= $(shell if docker info >/dev/null 2>&1; then echo docker; else echo sudo docker; fi)
 
 # Default target
 help:
@@ -7,6 +9,8 @@ help:
 	@echo "  make build         - Build Docker image with multi-platform support"
 	@echo "  make update-version - Update version in all package.json files"
 	@echo "  make start         - Start the application using docker-compose"
+	@echo "  make dev           - Start the monorepo in development mode with Docker Compose"
+	@echo "  make dev-down      - Stop the development containers"
 	@echo "  make stop          - Stop all running containers"
 	@echo "  make logs          - Show application logs"
 	@echo "  make clean         - Clean up containers and images"
@@ -39,22 +43,36 @@ update-version:
 # Start the application
 start:
 	@echo "🚀 Starting Palmr application..."
-	@docker-compose up -d
+	@$(DOCKER) compose up -d
+
+# Start the monorepo in development mode using Docker Compose
+dev:
+	@echo "🚀 Starting Palmr in development mode..."
+	@$(DOCKER) compose -f docker-compose.dev.yml up -d --build
+	@echo "✅ Development stack started."
+	@echo "   Web: http://localhost:3000"
+	@echo "   API: http://localhost:3333"
+	@echo "   Logs: make logs"
+
+# Stop the development containers
+dev-down:
+	@echo "🛑 Stopping Palmr development containers..."
+	@$(DOCKER) compose -f docker-compose.dev.yml down
 
 # Stop the application
 stop:
 	@echo "🛑 Stopping Palmr application..."
-	@docker-compose down
+	@$(DOCKER) compose down
 
 # Show logs
 logs:
 	@echo "📋 Showing Palmr logs..."
-	@docker-compose logs -f
+	@$(DOCKER) compose -f docker-compose.dev.yml logs -f
 
 # Clean up containers and images
 clean:
 	@echo "🧹 Cleaning up Docker containers and images..."
-	@docker-compose down -v
+	@$(DOCKER) compose down -v
 	@docker system prune -f
 	@echo "✅ Cleanup completed!"
 

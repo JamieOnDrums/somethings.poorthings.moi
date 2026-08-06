@@ -33,5 +33,14 @@ apps/server/dist/*
 .steering
 data/
 
+# PNPM
+.pnpm-store/
+.pnpm-store/**
+.pnpm/
+.pnpm-debug.log*
+**/.pnpm-store/
+**/.pnpm/
+**/.pnpm-debug.log*
+
 node_modules/
 screenshots/
