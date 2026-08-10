@@ -32,7 +32,7 @@ services:
       # - DEFAULT_LANGUAGE=en-US            # Default language (optional)
       # - PRESIGNED_URL_EXPIRATION=3600     # Presigned URL expiration in seconds (optional)
       # - SECURE_SITE=true                  # Set true if using HTTPS reverse proxy (optional)
-      STORAGE_URL: "https://localhost:9379" # REQUIRED for internal storage: Full storage URL with protocol (e.g., https://syrg.palmr.com or http://192.168.1.100:9379). Not needed when ENABLE_S3=true.
+      STORAGE_URL: "http://localhost:9379" # REQUIRED for internal storage: Full storage URL with protocol (e.g., https://syrg.palmr.com or http://192.168.1.100:9379). Not needed when ENABLE_S3=true.
       #
     ports:
       - "9379:9379" # Internal storage (S3-compatible, REQUIRED for file uploads when using internal storage)
