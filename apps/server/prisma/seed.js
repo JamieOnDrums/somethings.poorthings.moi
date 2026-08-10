@@ -7,7 +7,7 @@ const defaultConfigs = [
   // General Configurations
   {
     key: "appName",
-    value: "Palmr. ",
+    value: "somethings.poorthings.moi",
     type: "string",
     group: "general",
   },
@@ -25,13 +25,13 @@ const defaultConfigs = [
   },
   {
     key: "appDescription",
-    value: "Secure and simple file sharing - Your personal cloud",
+    value: "Fuck big tech - OSS 4ever",
     type: "string",
     group: "general",
   },
   {
     key: "appLogo",
-    value: "https://i.ibb.co/gMpk75bZ/Group.png",
+    value: "https://i.ibb.co/XxDnJ1hC/Poor-Things-red-spiral.png",
     type: "string",
     group: "general",
   },
