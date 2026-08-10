@@ -3,13 +3,19 @@ services:
     image: node:24-bookworm
     working_dir: /workspace/apps/server
     command: >
-      sh -c "corepack enable pnpm && cd /workspace/apps/server && pnpm exec prisma generate --schema ./prisma/schema.prisma && pnpm exec prisma db push --schema ./prisma/schema.prisma && node prisma/seed.js && pnpm dev"
+      sh -c "corepack enable pnpm && pnpm install && cd /workspace/apps/server && pnpm exec prisma generate --schema ./prisma/schema.prisma && pnpm exec prisma db push --schema ./prisma/schema.prisma && node prisma/seed.js && pnpm dev"
     environment:
       NODE_ENV: development
       DATABASE_URL: file:/workspace/apps/server/prisma/palmr.db
       API_BASE_URL: http://server:3333
+      ENABLE_S3: "true"
+      S3_ENDPOINT: minio:9000
+      S3_REGION: us-east-1
+      S3_ACCESS_KEY: minioadmin
+      S3_SECRET_KEY: minioadmin
+      S3_BUCKET_NAME: palmr-files
+      S3_FORCE_PATH_STYLE: "true"
       STORAGE_URL: http://localhost:9379
-      ENABLE_S3: "false"
       DISABLE_FILESYSTEM_ENCRYPTION: "true"
       SECURE_SITE: "false"
     ports:
@@ -20,29 +26,42 @@ services:
       - server_node_modules:/workspace/apps/server/node_modules
     restart: unless-stopped
 
-  web:
-    image: node:24-bookworm
-    working_dir: /workspace/apps/web
-    command: >
-      sh -c "corepack enable pnpm && cd /workspace/apps/web && pnpm exec next dev --hostname 0.0.0.0 --port 3000"
+  minio:
+    image: minio/minio:latest
     environment:
-      NODE_ENV: development
-      HOSTNAME: 0.0.0.0
-      PORT: 3000
-      NEXT_PUBLIC_DEFAULT_LANGUAGE: en-US
-      API_BASE_URL: http://server:3333
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address :9001
     ports:
-      - "3000:3000"
-    stdin_open: true
-    tty: true
+      - "9379:9000"
+      - "9378:9001"
     volumes:
-      - ./apps/web:/workspace/apps/web
-      - ./package.json:/workspace/package.json
-      - web_node_modules:/workspace/apps/web/node_modules
-    depends_on:
-      - server
+      - ./minio-data:/data
     restart: unless-stopped
+
+  # web:
+  #   image: node:24-bookworm
+  #   working_dir: /workspace/apps/web
+  #   command: >
+  #     sh -c "corepack enable pnpm && cd /workspace/apps/web && pnpm exec next dev --hostname 0.0.0.0 --port 3000"
+  #   environment:
+  #     NODE_ENV: development
+  #     HOSTNAME: 0.0.0.0
+  #     PORT: 3000
+  #     NEXT_PUBLIC_DEFAULT_LANGUAGE: en-US
+  #     API_BASE_URL: http://server:3333
+  #   ports:
+  #     - "3000:3000"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - ./apps/web:/workspace/apps/web
+  #     - ./package.json:/workspace/package.json
+  #     - web_node_modules:/workspace/apps/web/node_modules
+  #   depends_on:
+  #     - server
+  #   restart: unless-stopped
 
 volumes:
   server_node_modules:
-  web_node_modules:
+  # web_node_modules:
