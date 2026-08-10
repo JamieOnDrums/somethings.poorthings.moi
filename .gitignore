@@ -33,6 +33,7 @@ apps/server/dist/*
 .steering
 data/
 
+.minio-credentials
 # PNPM
 .pnpm-store/
 .pnpm-store/**
