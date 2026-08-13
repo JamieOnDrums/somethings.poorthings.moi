@@ -18,7 +18,7 @@ services:
       - "5487" # web interface docker only
       - "9379" # internal storage docker only
     environment:
-      STORAGE_URL: "http://somethings.poorthings.moi/storage" # REQUIRED for internal storage: Full storage URL with protocol (e.g., https://syrg.palmr.com or http://192.168.1.100:9379). Not needed when ENABLE_S3=true.
+      STORAGE_URL: "http://somethings.poorthings.moi:9379" # REQUIRED for internal storage: Full storage URL with protocol (e.g., https://syrg.palmr.com or http://192.168.1.100:9379). Not needed when ENABLE_S3=true.
     volumes:
       - palmr_data:/app/server
     restart: unless-stopped
