@@ -14,6 +14,7 @@ export const CreateShareSchema = z
     folders: z.array(z.string()).optional().describe("The folder IDs"),
     password: z.string().optional().describe("The share password"),
     maxViews: z.number().optional().nullable().describe("The maximum number of views"),
+    streamOnly: z.boolean().optional().default(false).describe("Whether the share should be stream-only and disable downloads"),
     recipients: z.array(z.string().email()).optional().describe("The recipient emails"),
   })
   .refine(
@@ -34,6 +35,7 @@ export const UpdateShareSchema = z.object({
   expiration: z.string().datetime().optional(),
   password: z.string().optional(),
   maxViews: z.number().optional().nullable(),
+  streamOnly: z.boolean().optional(),
   recipients: z.array(z.string().email()).optional(),
 });
 
@@ -51,6 +53,7 @@ export const ShareResponseSchema = z.object({
   description: z.string().nullable().describe("The share description"),
   expiration: z.string().nullable().describe("The share expiration date"),
   views: z.number().describe("The number of views"),
+  streamOnly: z.boolean().describe("Whether downloads are disabled for this share"),
   createdAt: z.string().describe("The share creation date"),
   updatedAt: z.string().describe("The share update date"),
   creatorId: z.string().describe("The creator ID"),

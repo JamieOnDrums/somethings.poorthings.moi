@@ -67,6 +67,7 @@ model Share {
   name        String?
   views       Int       @default(0)
   expiration  DateTime?
+  streamOnly  Boolean   @default(false)
   description String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

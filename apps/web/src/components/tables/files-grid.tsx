@@ -764,18 +764,20 @@ export function FilesGrid({
 
                       <div className="absolute top-2 right-2 z-10">
                         {isShareMode ? (
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            className="h-8 w-8 hover:bg-background/80"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onDownload(file.objectName, file.name);
-                            }}
-                          >
-                            <IconDownload className="h-4 w-4" />
-                            <span className="sr-only">{t("filesTable.actions.download")}</span>
-                          </Button>
+                          onDownload && (
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8 hover:bg-background/80"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onDownload(file.objectName, file.name);
+                              }}
+                            >
+                              <IconDownload className="h-4 w-4" />
+                              <span className="sr-only">{t("filesTable.actions.download")}</span>
+                            </Button>
+                          )
                         ) : (
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>

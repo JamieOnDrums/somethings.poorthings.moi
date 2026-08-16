@@ -31,6 +31,7 @@ interface FilePreviewModalProps {
   };
   isReverseShare?: boolean;
   sharePassword?: string;
+  disableDownload?: boolean;
 }
 
 export function FilePreviewModal({
@@ -39,6 +40,7 @@ export function FilePreviewModal({
   file,
   isReverseShare = false,
   sharePassword,
+  disableDownload = false,
 }: FilePreviewModalProps) {
   const t = useTranslations();
   const previewState = useFilePreview({ file, isOpen, isReverseShare, sharePassword });
@@ -89,10 +91,12 @@ export function FilePreviewModal({
           <Button variant="outline" onClick={onClose}>
             {t("common.close")}
           </Button>
-          <Button onClick={previewState.handleDownload}>
-            <IconDownload className="h-4 w-4" />
-            {t("common.download")}
-          </Button>
+          {!disableDownload && (
+            <Button onClick={previewState.handleDownload}>
+              <IconDownload className="h-4 w-4" />
+              {t("common.download")}
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

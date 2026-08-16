@@ -79,9 +79,10 @@ export function ShareDetails({
   const shareHasItems = (share.files && share.files.length > 0) || (share.folders && share.folders.length > 0);
   const totalShareItems = (share.files?.length || 0) + (share.folders?.length || 0);
   const hasMultipleFiles = totalShareItems > 1;
+  const isStreamOnly = Boolean(share.streamOnly);
 
   const handleFolderDownload = async (folderId: string, folderName: string) => {
-    // Use the download handler from the hook which uses toast.promise
+    if (isStreamOnly) return;
     await onDownload(`folder:${folderId}`, folderName);
   };
 
@@ -96,7 +97,7 @@ export function ShareDetails({
                   <IconShare className="w-6 h-6 text-muted-foreground" />
                   <h1 className="text-2xl font-semibold">{share.name || t("share.details.untitled")}</h1>
                 </div>
-                {shareHasItems && hasMultipleFiles && (
+                {!isStreamOnly && shareHasItems && hasMultipleFiles && (
                   <Button onClick={onBulkDownload} className="flex items-center gap-2 w-full sm:w-auto">
                     <IconDownload className="w-4 h-4" />
                     {t("share.downloadAll")}
@@ -125,8 +126,9 @@ export function ShareDetails({
               folders={folders}
               searchQuery={searchQuery}
               onSearch={handleSearch}
-              onDownload={onDownload}
-              onBulkDownload={onSelectedItemsBulkDownload}
+              onDownload={isStreamOnly ? undefined : onDownload}
+              onBulkDownload={isStreamOnly ? undefined : onSelectedItemsBulkDownload}
+              onDownloadFolder={isStreamOnly ? undefined : handleFolderDownload}
               isLoading={isBrowseLoading}
               isShareMode={true}
               emptyStateComponent={() => (
@@ -188,6 +190,7 @@ export function ShareDetails({
           }}
           file={selectedFile}
           sharePassword={password}
+          disableDownload={isStreamOnly}
         />
       )}
     </>

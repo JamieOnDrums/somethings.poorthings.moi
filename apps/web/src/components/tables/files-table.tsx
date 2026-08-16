@@ -899,15 +899,17 @@ export function FilesTable({
                   <TableCell className="h-12 px-4">{formatDateTime(file.updatedAt || file.createdAt)}</TableCell>
                   <TableCell className="h-12 px-4 text-right">
                     {isShareMode ? (
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 hover:bg-muted"
-                        onClick={() => onDownload(file.objectName, file.name)}
-                      >
-                        <IconDownload className="h-4 w-4" />
-                        <span className="sr-only">{t("filesTable.actions.download")}</span>
-                      </Button>
+                      onDownload && (
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 hover:bg-muted"
+                          onClick={() => onDownload(file.objectName, file.name)}
+                        >
+                          <IconDownload className="h-4 w-4" />
+                          <span className="sr-only">{t("filesTable.actions.download")}</span>
+                        </Button>
+                      )
                     ) : (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>

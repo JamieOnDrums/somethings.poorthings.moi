@@ -32,6 +32,7 @@ export function CreateShareModal({ isOpen, onClose, onSuccess, getAllFilesAndFol
     password: "",
     expiresAt: "",
     isPasswordProtected: false,
+    isStreamOnly: false,
     maxViews: "",
   });
 
@@ -82,6 +83,7 @@ export function CreateShareModal({ isOpen, onClose, onSuccess, getAllFilesAndFol
         password: "",
         expiresAt: "",
         isPasswordProtected: false,
+        isStreamOnly: false,
         maxViews: "",
       });
       setSelectedItems([]);
@@ -120,6 +122,7 @@ export function CreateShareModal({ isOpen, onClose, onSuccess, getAllFilesAndFol
             })()
           : undefined,
         maxViews: formData.maxViews ? parseInt(formData.maxViews) : undefined,
+        streamOnly: formData.isStreamOnly,
         files: selectedFiles,
         folders: selectedFolders,
       });
@@ -196,16 +199,30 @@ export function CreateShareModal({ isOpen, onClose, onSuccess, getAllFilesAndFol
                 />
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="password-protection"
-                  checked={formData.isPasswordProtected}
-                  onCheckedChange={(checked) => updateFormData("isPasswordProtected", checked)}
-                />
-                <Label htmlFor="password-protection" className="flex items-center gap-2">
-                  <IconLock className="h-4 w-4" />
-                  {t("createShare.passwordProtection")}
-                </Label>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+                <div className="flex items-center space-x-2 min-w-0">
+                  <Switch
+                    id="password-protection"
+                    checked={formData.isPasswordProtected}
+                    onCheckedChange={(checked) => updateFormData("isPasswordProtected", checked)}
+                  />
+                  <Label htmlFor="password-protection" className="flex items-center gap-2">
+                    <IconLock className="h-4 w-4" />
+                    {t("createShare.passwordProtection")}
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-2 min-w-0">
+                  <Switch
+                    id="stream-only"
+                    checked={formData.isStreamOnly}
+                    onCheckedChange={(checked) => updateFormData("isStreamOnly", checked)}
+                  />
+                  <Label htmlFor="stream-only" className="flex items-center gap-2">
+                    <IconShare className="h-4 w-4" />
+                    Stream only
+                  </Label>
+                </div>
               </div>
 
               {formData.isPasswordProtected && (

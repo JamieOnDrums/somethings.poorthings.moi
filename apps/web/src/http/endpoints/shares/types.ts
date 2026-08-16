@@ -52,6 +52,7 @@ export interface Share {
   name: string | null;
   description: string | null;
   expiration: string | null;
+  streamOnly: boolean;
   views: number;
   createdAt: string;
   updatedAt: string;
@@ -136,6 +137,7 @@ export interface CreateShareBody {
   folders?: string[];
   password?: string;
   maxViews?: number | null;
+  streamOnly?: boolean;
   recipients?: string[];
 }
 
@@ -146,6 +148,7 @@ export interface UpdateShareBody {
   expiration?: string;
   password?: string;
   maxViews?: number | null;
+  streamOnly?: boolean;
   recipients?: string[];
 }
 
