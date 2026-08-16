@@ -126,8 +126,8 @@ export function ShareDetails({
               folders={folders}
               searchQuery={searchQuery}
               onSearch={handleSearch}
-              onDownload={isStreamOnly ? undefined : onDownload}
-              onBulkDownload={isStreamOnly ? undefined : onSelectedItemsBulkDownload}
+              onDownload={isStreamOnly ? () => undefined : onDownload}
+              onBulkDownload={isStreamOnly ? () => undefined : onSelectedItemsBulkDownload}
               onDownloadFolder={isStreamOnly ? undefined : handleFolderDownload}
               isLoading={isBrowseLoading}
               isShareMode={true}
@@ -171,7 +171,6 @@ export function ShareDetails({
                 </Breadcrumb>
               }
               onNavigateToFolder={navigateToFolder}
-              onDownloadFolder={handleFolderDownload}
               onPreview={(file) => {
                 setSelectedFile({ name: file.name, objectName: file.objectName });
                 setIsPreviewOpen(true);
