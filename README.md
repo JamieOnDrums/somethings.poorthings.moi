@@ -1,9 +1,8 @@
-
 > ## ⚠️ Project Archived
+>
 > After deep reflection, I have decided to focus my limited time and energy on my other projects. As a solo developer, I have struggled to actively maintain multiple projects with the care and attention they deserve. Without enough sponsors, it became unfeasible to maintain Palmr.
 > If you are interested in continuing this work through a fork, I will be happy to add a link to it here in the README.
 > We thank all the contributors and users who have supported Palmr over time!
-
 
 # 🌴 Palmr. - Open-Source File Transfer
 
@@ -44,15 +43,15 @@
   <img src="https://res.cloudinary.com/technical-intelligence/image/upload/v1745548231/Palmr./Captura_de_Tela_2025-04-24_a%CC%80s_23.24.26_kr4hsl.png" style="width: 100%; border-radius: 15px;" />
 </div>
 
-
 ### **Backend & API**
+
 - **Fastify (Node.js)** – High-performance API framework with built-in schema validation.
 - **SQLite** – Lightweight, reliable database with zero-configuration setup.
 - **Filesystem Storage** – Direct file storage with optional S3-compatible object storage.
 
 ### **Frontend**
-- **NextJS 15 + TypeScript + Shadcn/ui** – Modern and fast web interface.
 
+- **NextJS 15 + TypeScript + Shadcn/ui** – Modern and fast web interface.
 
 ## 🛠️ How It Works
 
@@ -132,11 +131,10 @@
   </tr>
 </table>
 
-
 ## 👨‍💻 Core Maintainers
 
-| [**Daniel Luiz Alves**](https://github.com/danielalves96) |
-|------------------|
+| [**Daniel Luiz Alves**](https://github.com/danielalves96)                                |
+| ---------------------------------------------------------------------------------------- |
 | <img src="https://github.com/danielalves96.png" width="150px" alt="Daniel Luiz Alves" /> |
 
 </br>
@@ -158,5 +156,3 @@
 ## 🛠️ Contributing
 
 For contribution guidelines, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
-
-
