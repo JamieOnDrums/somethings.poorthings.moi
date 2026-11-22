@@ -1,19 +1,22 @@
 #!/bin/sh
-# Download MinIO Client (mc) binary for the appropriate architecture
+# Download a pinned MinIO Client (mc) release from GitHub.
 # This script is run during Docker build
 
 set -e
 
 ARCH=$(uname -m)
+MC_VERSION="RELEASE.2025-08-13T08-35-41Z"
 
 echo "[BUILD] Downloading MinIO Client (mc) for ${ARCH}..."
 
 case "$ARCH" in
     x86_64)
         MC_ARCH="linux-amd64"
+        MC_SHA256="01f866e9c5f9b87c2b09116fa5d7c06695b106242d829a8bb32990c00312e891"
         ;;
     aarch64|arm64)
         MC_ARCH="linux-arm64"
+        MC_SHA256="14c8c9616cfce4636add161304353244e8de383b2e2752c0e9dad01d4c27c12c"
         ;;
     *)
         echo "[BUILD] Unsupported architecture: $ARCH"
@@ -22,7 +25,7 @@ case "$ARCH" in
         ;;
 esac
 
-DOWNLOAD_URL="https://dl.min.io/client/mc/release/${MC_ARCH}/mc"
+DOWNLOAD_URL="https://github.com/minio/mc/releases/download/${MC_VERSION}/mc.${MC_ARCH}.${MC_VERSION}"
 
 echo "[BUILD] Downloading from: $DOWNLOAD_URL"
 
@@ -45,6 +48,9 @@ if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
     echo "[BUILD] ✗ Failed to download MinIO Client after $MAX_RETRIES attempts"
     exit 1
 fi
+
+# Verify the pinned release artifact before installing it.
+echo "${MC_SHA256}  /tmp/mc" | sha256sum -c -
 
 # Install binary
 chmod +x /tmp/mc
