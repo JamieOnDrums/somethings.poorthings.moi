@@ -1,5 +1,5 @@
 #!/bin/sh
-# Download storage system binary for the appropriate architecture
+# Download a pinned MinIO Server release from GitHub.
 # This script is run during Docker build
 
 set -e
@@ -12,9 +12,11 @@ echo "[BUILD] Downloading storage system ${MINIO_VERSION} for ${ARCH}..."
 case "$ARCH" in
     x86_64)
         MINIO_ARCH="linux-amd64"
+        MINIO_SHA256="1126bbb3276321e7fed0167682d92a03572862f73802658f616af43d9a951e6a"
         ;;
     aarch64|arm64)
         MINIO_ARCH="linux-arm64"
+        MINIO_SHA256="d89a1c767182fb599b975b6177b517b17b3bee2d0948dcef4adfd0b886a09354"
         ;;
     *)
         echo "[BUILD] Unsupported architecture: $ARCH"
@@ -23,7 +25,7 @@ case "$ARCH" in
         ;;
 esac
 
-DOWNLOAD_URL="https://dl.min.io/server/minio/release/${MINIO_ARCH}/archive/minio.${MINIO_VERSION}"
+DOWNLOAD_URL="https://github.com/minio/minio/releases/download/${MINIO_VERSION}/minio.${MINIO_ARCH}.${MINIO_VERSION}"
 
 echo "[BUILD] Downloading from: $DOWNLOAD_URL"
 
@@ -43,10 +45,12 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
 done
 
 if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
-    echo "[BUILD] ✗ Failed to download storage system after $MAX_RETRIES attempts"
-    echo "[BUILD] Palmr will fallback to external S3"
-    exit 0
+    echo "[BUILD] ✗ Failed to download MinIO Server after $MAX_RETRIES attempts"
+    exit 1
 fi
+
+# Verify the pinned release artifact before installing it.
+echo "${MINIO_SHA256}  /tmp/minio" | sha256sum -c -
 
 # Install binary
 chmod +x /tmp/minio
